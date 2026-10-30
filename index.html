@@ -17,6 +17,7 @@
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
@@ -25,78 +26,109 @@
             background: #cbd5e1;
             border-radius: 4px;
         }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between py-8 px-4 sm:px-6 lg:px-8">
+<body class="min-h-screen flex flex-col justify-between py-6 px-4 sm:px-6 lg:px-8">
 
     <!-- Header Kuis -->
-    <header class="max-w-3xl mx-auto w-full text-center mb-6">
-        <span class="bg-indigo-100 text-indigo-700 text-xs sm:text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-2">
+    <header class="max-w-4xl mx-auto w-full text-center mb-6">
+        <span class="bg-indigo-100 text-indigo-700 text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-2 shadow-sm">
             Kuis Interaktif Matematika
         </span>
         <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
             Uji Pemahaman Bangun Ruang
         </h1>
         <p class="text-slate-500 text-sm sm:text-base mt-2">
-            30 Soal Acak: Bergambar, Teka-Teki Ciri, dan Penerapan Kehidupan Nyata
+            30 Soal Terstruktur: Bergambar ➔ Teka-Teki Ciri ➔ Penerapan Kehidupan Nyata
         </p>
     </header>
 
     <!-- Main Container Kuis -->
-    <main class="max-w-3xl mx-auto w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10">
+    <main class="max-w-4xl mx-auto w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-5 sm:p-8">
+
+        <!-- Banner Disimpan Otomatis & Jaringan Status -->
+        <div id="storageNotice" class="mb-4 flex items-center justify-between bg-emerald-50 text-emerald-800 text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-emerald-200">
+            <span class="flex items-center gap-2 font-medium">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Progress tersimpan otomatis di perangkat Anda
+            </span>
+            <button onclick="clearSavedData()" class="text-xs text-emerald-700 hover:text-emerald-900 underline font-semibold">
+                Hapus & Mulai Ulang
+            </button>
+        </div>
+
+        <!-- Panel Grid Navigasi Soal -->
+        <div class="mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                    🧭 Peta Navigasi Soal
+                </span>
+                <div class="flex items-center gap-3 text-[11px] text-slate-500 font-medium">
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-200 inline-block border border-slate-300"></span> Belum</span>
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Benar</span>
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Salah</span>
+                </div>
+            </div>
+            
+            <!-- Matrix Soal 1 - 30 -->
+            <div id="navigationGrid" class="grid grid-cols-6 sm:grid-cols-10 gap-1.5 sm:gap-2">
+                <!-- Grid buttons rendered dynamically -->
+            </div>
+        </div>
 
         <!-- Progress Bar & Questions Counter -->
         <div class="mb-6 space-y-2">
             <div class="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-600">
                 <span>Soal Ke- <span id="currentQNum" class="text-indigo-600 text-base font-extrabold">1</span> dari <span id="totalQNum">30</span></span>
-                <span id="quizCategoryBadge" class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-xs">
+                <span id="quizCategoryBadge" class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-xs font-semibold">
                     Kuis Slide
                 </span>
             </div>
-            <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
-                <div id="quizProgressBar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-3 rounded-full transition-all duration-300" style="width: 3.33%"></div>
+            <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden p-0.5 border border-slate-200">
+                <div id="quizProgressBar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-300" style="width: 3.33%"></div>
             </div>
         </div>
 
         <!-- Active Single Question Card -->
-        <div id="singleQuestionCard" class="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200/80 min-h-[340px] flex flex-col justify-between shadow-inner">
+        <div id="singleQuestionCard" class="bg-slate-50 rounded-2xl p-5 sm:p-8 border border-slate-200/80 min-h-[360px] flex flex-col justify-between shadow-inner">
             <!-- Rendered dynamically by JavaScript -->
         </div>
 
         <!-- Navigation Controls -->
-        <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <button id="btnPrev" onclick="navigateSlide(-1)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all w-full sm:w-auto disabled:opacity-40 disabled:cursor-not-allowed text-sm">
+        <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <button id="btnPrev" onclick="navigateSlide(-1)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all w-full sm:w-auto disabled:opacity-40 disabled:cursor-not-allowed text-sm flex items-center justify-center gap-1">
                 ⬅️ Sebelumnya
             </button>
             
-            <button onclick="shuffleQuizData()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold rounded-xl text-xs transition-all border border-slate-200">
-                🔀 Acak Ulang Soal
-            </button>
+            <div class="flex gap-2 w-full sm:w-auto justify-center">
+                <button onclick="shuffleCurrentSection()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold rounded-xl text-xs transition-all border border-slate-200 shadow-sm flex items-center gap-1">
+                    🔀 Acak Soal
+                </button>
+                <button onclick="resetAnswersOnly()" class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold rounded-xl text-xs transition-all border border-rose-200 shadow-sm">
+                    🗑️ Bersihkan Jawaban
+                </button>
+            </div>
 
-            <button id="btnNext" onclick="navigateSlide(1)" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all w-full sm:w-auto text-sm">
+            <button id="btnNext" onclick="navigateSlide(1)" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all w-full sm:w-auto text-sm flex items-center justify-center gap-1">
                 Selanjutnya ➡️
             </button>
         </div>
 
-        <!-- Action Finish/Submit Button -->
-        <div class="mt-8 pt-6 border-t border-slate-100 text-center">
-            <button onclick="evaluateAllAnswers()" class="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold rounded-xl shadow-lg transition-all transform hover:scale-105 w-full sm:w-auto text-base">
-                Selesaikan & Periksa Seluruh Jawaban 🚀
-            </button>
-        </div>
-
-        <!-- Result Score Board -->
-        <div id="quizEssayResult" class="hidden mt-8 p-6 sm:p-8 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-2xl border border-indigo-100 text-center space-y-4">
+        <!-- Ringkasan Hasil (Muncul jika semua soal sudah dicek/selesai) -->
+        <div id="quizEssayResult" class="hidden mt-8 p-6 sm:p-8 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-2xl border border-indigo-100 text-center space-y-4 shadow-sm">
             <div class="w-24 h-24 bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-full flex items-center justify-center text-4xl font-black mx-auto shadow-xl ring-4 ring-white" id="scoreBadge">
                 0
             </div>
-            <h2 class="text-2xl font-bold text-slate-800">Hasil Evaluasi Kuis</h2>
+            <h2 class="text-2xl font-bold text-slate-800">Ringkasan Skor Soal Yang Telah Dicek</h2>
             <p id="scoreSummaryText" class="text-slate-600 text-sm sm:text-base">
                 Anda berhasil menjawab <span id="correctAnswersCount" class="font-bold text-indigo-600 text-lg">0</span> dari 30 pertanyaan dengan tepat.
             </p>
-            <div class="pt-2">
+            <div class="pt-2 flex justify-center gap-3">
                 <button onclick="resetEssayQuiz()" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md hover:bg-indigo-700 transition-all text-sm">
-                    🔄 Ulangi Kuis
+                    🔄 Ulangi Kuis Dari Awal
                 </button>
             </div>
         </div>
@@ -104,7 +136,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="max-w-3xl mx-auto w-full text-center mt-8 text-slate-400 text-xs">
+    <footer class="max-w-4xl mx-auto w-full text-center mt-8 text-slate-400 text-xs">
         Kuis Interaktif Bangun Ruang &copy; 2026 • Matematika Interaktif
     </footer>
 
@@ -112,7 +144,7 @@
     <script>
         // Data Gambar Bangun Ruang SVG
         const svgLibrary = {
-            'kubus': `<svg viewBox="0 0 200 180" class="w-36 h-36 drop-shadow">
+            'kubus': `<svg viewBox="0 0 200 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <polygon points="60,50 140,50 140,130 60,130" fill="#6366f1" fill-opacity="0.2" stroke="#4f46e5" stroke-width="3"/>
                 <polygon points="90,20 170,20 170,100 90,100" fill="#818cf8" fill-opacity="0.3" stroke="#4f46e5" stroke-width="3"/>
                 <line x1="60" y1="50" x2="90" y2="20" stroke="#4f46e5" stroke-width="3"/>
@@ -120,7 +152,7 @@
                 <line x1="140" y1="130" x2="170" y2="100" stroke="#4f46e5" stroke-width="3"/>
                 <line x1="60" y1="130" x2="90" y2="100" stroke="#4f46e5" stroke-width="3" stroke-dasharray="4"/>
             </svg>`,
-            'balok': `<svg viewBox="0 0 220 180" class="w-36 h-36 drop-shadow">
+            'balok': `<svg viewBox="0 0 220 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <polygon points="40,60 150,60 150,130 40,130" fill="#3b82f6" fill-opacity="0.2" stroke="#2563eb" stroke-width="3"/>
                 <polygon points="80,25 190,25 190,95 80,95" fill="#60a5fa" fill-opacity="0.3" stroke="#2563eb" stroke-width="3"/>
                 <line x1="40" y1="60" x2="80" y2="25" stroke="#2563eb" stroke-width="3"/>
@@ -128,21 +160,21 @@
                 <line x1="150" y1="130" x2="190" y2="95" stroke="#2563eb" stroke-width="3"/>
                 <line x1="40" y1="130" x2="80" y2="95" stroke="#2563eb" stroke-width="3" stroke-dasharray="4"/>
             </svg>`,
-            'tabung': `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+            'tabung': `<svg viewBox="0 0 180 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <ellipse cx="90" cy="40" rx="50" ry="18" fill="#10b981" fill-opacity="0.3" stroke="#059669" stroke-width="3"/>
                 <path d="M 40,40 L 40,130 A 50,18 0 0,0 140,130 L 140,40" fill="#34d399" fill-opacity="0.2" stroke="#059669" stroke-width="3"/>
                 <ellipse cx="90" cy="130" rx="50" ry="18" fill="#10b981" fill-opacity="0.4" stroke="#059669" stroke-width="3" stroke-dasharray="4"/>
             </svg>`,
-            'kerucut': `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+            'kerucut': `<svg viewBox="0 0 180 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <ellipse cx="90" cy="130" rx="50" ry="18" fill="#f59e0b" fill-opacity="0.3" stroke="#d97706" stroke-width="3"/>
                 <path d="M 90,20 L 40,130 A 50,18 0 0,0 140,130 Z" fill="#fbbf24" fill-opacity="0.3" stroke="#d97706" stroke-width="3"/>
             </svg>`,
-            'bola': `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+            'bola': `<svg viewBox="0 0 180 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <circle cx="90" cy="90" r="60" fill="#ef4444" fill-opacity="0.25" stroke="#dc2626" stroke-width="3"/>
                 <ellipse cx="90" cy="90" rx="60" ry="20" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4"/>
                 <ellipse cx="90" cy="90" rx="20" ry="60" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4"/>
             </svg>`,
-            'prisma-segitiga': `<svg viewBox="0 0 220 160" class="w-40 h-36 drop-shadow">
+            'prisma-segitiga': `<svg viewBox="0 0 220 160" class="w-36 h-32 sm:w-40 sm:h-36 drop-shadow">
                 <polygon points="10,135 85,145 195,115 120,105" fill="#3b82f6" fill-opacity="0.1"/>
                 <polygon points="10,135 85,145 50,50" fill="#93c5fd" fill-opacity="0.8" stroke="#1e40af" stroke-width="2.5"/>
                 <polygon points="50,50 85,145 195,115 160,20" fill="#60a5fa" fill-opacity="0.65" stroke="#1e40af" stroke-width="2.5"/>
@@ -152,7 +184,7 @@
                 <line x1="50" y1="50" x2="160" y2="20" stroke="#1e40af" stroke-width="2.5"/>
                 <line x1="160" y1="20" x2="120" y2="105" stroke="#1e40af" stroke-width="2" stroke-dasharray="4,4"/>
             </svg>`,
-            'prisma-segi-lima': `<svg viewBox="0 0 180 200" class="w-36 h-36 drop-shadow">
+            'prisma-segi-lima': `<svg viewBox="0 0 180 200" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <polygon points="90,15 155,35 125,55 55,55 25,35" fill="#fbcfe8" fill-opacity="0.8" stroke="#831843" stroke-width="2.5"/>
                 <polygon points="25,35 55,55 55,165 25,145" fill="#f472b6" fill-opacity="0.25" stroke="#831843" stroke-width="2.5"/>
                 <polygon points="55,55 125,55 125,165 55,165" fill="#f472b6" fill-opacity="0.35" stroke="#831843" stroke-width="2.5"/>
@@ -162,7 +194,7 @@
                 <line x1="90" y1="125" x2="155" y2="145" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"/>
                 <polyline points="25,145 55,165 125,165 155,145" fill="none" stroke="#831843" stroke-width="2.5"/>
             </svg>`,
-            'prisma-segi-enam': `<svg viewBox="0 0 180 200" class="w-36 h-36 drop-shadow">
+            'prisma-segi-enam': `<svg viewBox="0 0 180 200" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <polygon points="90,15 145,30 145,65 90,80 35,65 35,30" fill="#e9d5ff" fill-opacity="0.7" stroke="#6b21a8" stroke-width="2.5"/>
                 <polygon points="35,65 90,80 90,180 35,165" fill="#c084fc" fill-opacity="0.25" stroke="#6b21a8" stroke-width="2.5"/>
                 <polygon points="90,80 145,65 145,165 90,180" fill="#c084fc" fill-opacity="0.35" stroke="#6b21a8" stroke-width="2.5"/>
@@ -173,14 +205,14 @@
                 <line x1="145" y1="130" x2="90" y2="115" stroke="#6b21a8" stroke-width="2.5" stroke-dasharray="4"/>
                 <polyline points="35,165 90,180 145,165" fill="none" stroke="#6b21a8" stroke-width="2.5"/>
             </svg>`,
-            'limas-segi-empat': `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+            'limas-segi-empat': `<svg viewBox="0 0 180 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <polygon points="85,15 30,145 95,145 150,105" fill="#ebd5ff" fill-opacity="0.4" stroke="#7e22ce" stroke-width="2.5"/>
                 <polygon points="85,15 30,145 95,145" fill="#d8b4fe" fill-opacity="0.7" stroke="#7e22ce" stroke-width="2.5"/>
                 <line x1="30" y1="145" x2="85" y2="105" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="4"/>
                 <line x1="85" y1="105" x2="150" y2="105" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="4"/>
                 <line x1="85" y1="15" x2="85" y2="105" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="4"/>
             </svg>`,
-            'limas-segi-enam': `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+            'limas-segi-enam': `<svg viewBox="0 0 180 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <polygon points="90,10 25,135 60,170 120,170 155,135" fill="#a7f3d0" fill-opacity="0.8" stroke="#047857" stroke-width="2.5"/>
                 <line x1="25" y1="135" x2="60" y2="105" stroke="#047857" stroke-width="2.5" stroke-dasharray="4"/>
                 <line x1="155" y1="135" x2="120" y2="105" stroke="#047857" stroke-width="2.5" stroke-dasharray="4"/>
@@ -194,9 +226,9 @@
             </svg>`
         };
 
-        // Data 30 Soal Kuis
+        // Data Master 30 Soal Kuis
         const masterQuizData = [
-            // Bagian 1: 10 Soal Bergambar (Identifikasi Nama, Sisi, Rusuk, Titik Sudut)
+            // BAGIAN 1: SOAL BERGAMBAR (Soal 1 - 10)
             { id: 1, cat: 'gambar', keyName: 'Kubus', sisi: 6, rusuk: 12, sudut: 8, svgKey: 'kubus', q: "Perhatikan gambar di atas. Tuliskan nama bangun ruang beserta jumlah sisi, rusuk, dan titik sudutnya!" },
             { id: 2, cat: 'gambar', keyName: 'Balok', sisi: 6, rusuk: 12, sudut: 8, svgKey: 'balok', q: "Identifikasi nama bangun ruang pada gambar di atas beserta jumlah sisi, rusuk, dan titik sudutnya!" },
             { id: 3, cat: 'gambar', keyName: 'Tabung', sisi: 3, rusuk: 2, sudut: 0, svgKey: 'tabung', q: "Sebutkan nama bangun ruang di atas serta banyaknya sisi, rusuk, dan titik sudut yang dimilikinya!" },
@@ -208,7 +240,7 @@
             { id: 9, cat: 'gambar', keyName: 'Limas Segi Empat', sisi: 5, rusuk: 8, sudut: 5, svgKey: 'limas-segi-empat', q: "Tuliskan nama bangun ruang di atas beserta banyaknya sisi, rusuk, dan titik sudutnya!" },
             { id: 10, cat: 'gambar', keyName: 'Limas Segi Enam', sisi: 7, rusuk: 12, sudut: 7, svgKey: 'limas-segi-enam', q: "Perhatikan gambar di atas. Tuliskan nama bangun ruang tersebut beserta jumlah sisi, rusuk, dan titik sudutnya!" },
 
-            // Bagian 2: 10 Soal Teka-Teki Ciri (Riddle Bahasa Indonesia)
+            // BAGIAN 2: TEKA-TEKI CIRI (Soal 11 - 20)
             { id: 11, cat: 'riddle', text: "Aku memiliki 6 bidang sisi, 8 titik sudut, dan 12 rusuk. Keenam sisiku adalah persegi yang identik. Bangun apakah aku?", answerKey: "kubus" },
             { id: 12, cat: 'riddle', text: "Aku memiliki 6 bidang sisi dan 12 rusuk. Sisi-sisiku terdiri dari 3 pasang persegi panjang yang sejajar dan sama besar. Bangun apakah aku?", answerKey: "balok" },
             { id: 13, cat: 'riddle', text: "Aku memiliki 2 alas lingkaran yang sejajar serta 1 sisi lengkung. Aku sama sekali tidak memiliki titik sudut. Bangun apakah aku?", answerKey: "tabung" },
@@ -220,7 +252,7 @@
             { id: 19, cat: 'riddle', text: "Aku memiliki 1 alas berbentuk segi empat dan 4 sisi tegak berbentuk segitiga yang bertemu di 1 titik puncak. Total titik sudutku ada 5. Bangun apakah aku?", answerKey: "limas segi empat" },
             { id: 20, cat: 'riddle', text: "Aku memiliki alas berbentuk segi enam dan 6 bidang segitiga tegak. Total titik sudutku ada 7 dan rusukku ada 12. Bangun apakah aku?", answerKey: "limas segi enam" },
 
-            // Bagian 3: 10 Soal Penerapan & Karakteristik Kontekstual
+            // BAGIAN 3: PENERAPAN KEHIDUPAN NYATA (Soal 21 - 30)
             { id: 21, cat: 'aplikasi', text: "Dadu permainan standar dan rubik 3x3 adalah contoh nyata benda yang berbentuk...", answerKey: "kubus" },
             { id: 22, cat: 'aplikasi', text: "Kotak sepatu, lemari pakaian, dan kardus mi instan pada umumnya berbentuk...", answerKey: "balok" },
             { id: 23, cat: 'aplikasi', text: "Kaleng minuman soda, drum minyak, dan pipa air berbentuk menyerupai...", answerKey: "tabung" },
@@ -236,21 +268,175 @@
         let activeQuizList = [];
         let currentSlideIndex = 0;
         let userAnswers = {}; // Format: { qId: { name, sisi, rusuk, sudut, desc } }
+        let checkedQuestions = {}; // Track status pengecekan tiap soal: { qId: true/false }
 
-        function shuffleArray(array) {
-            const arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
+        // Local Storage Keys
+        const STORAGE_KEY_ANSWERS = 'quiz_bangun_ruang_answers_v2';
+        const STORAGE_KEY_CHECKED = 'quiz_bangun_ruang_checked_v2';
+        const STORAGE_KEY_INDEX = 'quiz_bangun_ruang_index_v2';
+        const STORAGE_KEY_LIST = 'quiz_bangun_ruang_list_v2';
+
+        // Load or Initialize Kuis Data
+        function initQuizData() {
+            const savedAnswers = localStorage.getItem(STORAGE_KEY_ANSWERS);
+            const savedChecked = localStorage.getItem(STORAGE_KEY_CHECKED);
+            const savedIndex = localStorage.getItem(STORAGE_KEY_INDEX);
+            const savedList = localStorage.getItem(STORAGE_KEY_LIST);
+
+            if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
+            if (savedChecked) checkedQuestions = JSON.parse(savedChecked);
+
+            if (savedList) {
+                activeQuizList = JSON.parse(savedList);
+            } else {
+                activeQuizList = [...masterQuizData];
+                saveListToStorage();
             }
-            return arr;
+
+            if (savedIndex) {
+                currentSlideIndex = parseInt(savedIndex) || 0;
+            } else {
+                currentSlideIndex = 0;
+            }
+
+            renderNavigationGrid();
+            renderCurrentSlide();
+            updateOverallSummary();
         }
 
-        function shuffleQuizData() {
-            activeQuizList = shuffleArray(masterQuizData);
-            currentSlideIndex = 0;
-            userAnswers = {};
-            document.getElementById('quizEssayResult').classList.add('hidden');
+        function saveAnswersToStorage() {
+            localStorage.setItem(STORAGE_KEY_ANSWERS, JSON.stringify(userAnswers));
+        }
+
+        function saveCheckedToStorage() {
+            localStorage.setItem(STORAGE_KEY_CHECKED, JSON.stringify(checkedQuestions));
+        }
+
+        function saveIndexToStorage() {
+            localStorage.setItem(STORAGE_KEY_INDEX, currentSlideIndex.toString());
+        }
+
+        function saveListToStorage() {
+            localStorage.setItem(STORAGE_KEY_LIST, JSON.stringify(activeQuizList));
+        }
+
+        function clearSavedData() {
+            if (confirm("Apakah Anda yakin ingin menghapus semua jawaban dan mulai dari awal?")) {
+                localStorage.removeItem(STORAGE_KEY_ANSWERS);
+                localStorage.removeItem(STORAGE_KEY_CHECKED);
+                localStorage.removeItem(STORAGE_KEY_INDEX);
+                localStorage.removeItem(STORAGE_KEY_LIST);
+                userAnswers = {};
+                checkedQuestions = {};
+                currentSlideIndex = 0;
+                activeQuizList = [...masterQuizData];
+                saveListToStorage();
+                document.getElementById('quizEssayResult').classList.add('hidden');
+                renderNavigationGrid();
+                renderCurrentSlide();
+            }
+        }
+
+        function shuffleCurrentSection() {
+            const gArr = activeQuizList.slice(0, 10);
+            const rArr = activeQuizList.slice(10, 20);
+            const aArr = activeQuizList.slice(20, 30);
+
+            const shuffle = (a) => {
+                for (let i = a.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a;
+            };
+
+            activeQuizList = [...shuffle(gArr), ...shuffle(rArr), ...shuffle(aArr)];
+            saveListToStorage();
+            renderNavigationGrid();
+            renderCurrentSlide();
+        }
+
+        function resetAnswersOnly() {
+            if (confirm("Hapus semua masukan jawaban tanpa merubah urutan soal?")) {
+                userAnswers = {};
+                checkedQuestions = {};
+                saveAnswersToStorage();
+                saveCheckedToStorage();
+                document.getElementById('quizEssayResult').classList.add('hidden');
+                renderNavigationGrid();
+                renderCurrentSlide();
+            }
+        }
+
+        // Check Question Correctness
+        function checkQuestionCorrectness(item) {
+            const ans = userAnswers[item.id];
+            if (!ans) return { isFilled: false, isCorrect: false };
+
+            if (item.cat === 'gambar') {
+                const name = (ans.name || '').trim().toLowerCase();
+                const sisi = parseInt(ans.sisi);
+                const rusuk = parseInt(ans.rusuk);
+                const sudut = parseInt(ans.sudut);
+
+                const hasFilledAny = ans.name || ans.sisi || ans.rusuk || ans.sudut;
+                if (!hasFilledAny) return { isFilled: false, isCorrect: false };
+
+                const nameOk = name.includes(item.keyName.toLowerCase());
+                const sisiOk = sisi === item.sisi;
+                const rusukOk = rusuk === item.rusuk;
+                const sudutOk = sudut === item.sudut;
+
+                const isCorrect = nameOk && sisiOk && rusukOk && sudutOk;
+                return { isFilled: true, isCorrect };
+            } else {
+                const desc = (ans.desc || '').trim().toLowerCase();
+                if (!desc) return { isFilled: false, isCorrect: false };
+
+                const isCorrect = desc.includes(item.answerKey.toLowerCase());
+                return { isFilled: true, isCorrect };
+            }
+        }
+
+        // Render Navigation Grid
+        function renderNavigationGrid() {
+            const gridContainer = document.getElementById('navigationGrid');
+            gridContainer.innerHTML = '';
+
+            activeQuizList.forEach((item, idx) => {
+                const isChecked = checkedQuestions[item.id];
+                const status = checkQuestionCorrectness(item);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => jumpToSlide(idx);
+
+                let bgClass = 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200';
+                
+                if (isChecked) {
+                    if (status.isCorrect) {
+                        bgClass = 'bg-emerald-500 text-white hover:bg-emerald-600 border-emerald-600 font-bold';
+                    } else {
+                        bgClass = 'bg-rose-500 text-white hover:bg-rose-600 border-rose-600 font-bold';
+                    }
+                } else if (status.isFilled) {
+                    bgClass = 'bg-amber-100 text-amber-800 border-amber-300 font-medium';
+                }
+
+                if (idx === currentSlideIndex) {
+                    bgClass += ' ring-2 ring-indigo-600 ring-offset-1 scale-105 z-10';
+                }
+
+                btn.className = `h-9 rounded-lg border text-xs sm:text-sm font-semibold transition-all flex items-center justify-center ${bgClass}`;
+                btn.innerText = idx + 1;
+                gridContainer.appendChild(btn);
+            });
+        }
+
+        function jumpToSlide(index) {
+            saveCurrentInput();
+            currentSlideIndex = index;
+            saveIndexToStorage();
+            renderNavigationGrid();
             renderCurrentSlide();
         }
 
@@ -260,6 +446,8 @@
             const item = activeQuizList[currentSlideIndex];
             const card = document.getElementById('singleQuestionCard');
             const savedAns = userAnswers[item.id] || {};
+            const isChecked = checkedQuestions[item.id];
+            const status = checkQuestionCorrectness(item);
 
             // Progress Update
             document.getElementById('currentQNum').innerText = currentSlideIndex + 1;
@@ -267,8 +455,26 @@
             const pct = ((currentSlideIndex + 1) / activeQuizList.length) * 100;
             document.getElementById('quizProgressBar').style.width = `${pct}%`;
 
-            const catLabel = item.cat === 'gambar' ? 'Soal Bergambar' : (item.cat === 'riddle' ? 'Teka-Teki Ciri' : 'Penerapan');
+            const catLabel = item.cat === 'gambar' ? 'Bagian 1: Soal Bergambar' : (item.cat === 'riddle' ? 'Bagian 2: Teka-Teki Ciri' : 'Bagian 3: Penerapan');
             document.getElementById('quizCategoryBadge').innerText = catLabel;
+
+            // Feedback Banner (hanya muncul saat tombol "Cek Jawaban" diklik)
+            let feedbackBanner = '';
+            if (isChecked) {
+                if (status.isCorrect) {
+                    feedbackBanner = `
+                        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2 text-emerald-800 text-xs sm:text-sm font-bold shadow-sm animate-fadeIn">
+                            <span>✅ Jawaban Anda Benar! Bagus sekali.</span>
+                        </div>
+                    `;
+                } else {
+                    feedbackBanner = `
+                        <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl flex items-center gap-2 text-rose-800 text-xs sm:text-sm font-bold shadow-sm animate-fadeIn">
+                            <span>❌ Jawaban Kurang Tepat. Silakan periksa kembali jawaban Anda.</span>
+                        </div>
+                    `;
+                }
+            }
 
             // Render Card Content
             if (item.cat === 'gambar') {
@@ -276,54 +482,105 @@
                 card.innerHTML = `
                     <div class="space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-200/80 pb-3">
-                            <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Bagian 1: Identifikasi Gambar</span>
-                            <span class="text-xs text-slate-400">Lengkapi 4 jawaban</span>
+                            <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Soal #${currentSlideIndex + 1} • Bergambar</span>
+                            <span class="text-xs text-slate-400">Lengkapi Isian</span>
                         </div>
-                        <div class="flex flex-col sm:flex-row items-center gap-6 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                            <div class="w-32 h-32 flex items-center justify-center bg-slate-50 rounded-lg p-2">
+                        
+                        ${feedbackBanner}
+
+                        <div class="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                            <div class="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center bg-slate-50 rounded-lg p-2 shrink-0">
                                 ${svgContent}
                             </div>
                             <p class="font-bold text-slate-800 text-sm sm:text-base flex-grow text-center sm:text-left leading-relaxed">${item.q}</p>
                         </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
                             <div>
                                 <label class="text-xs font-bold text-slate-600 block mb-1">Nama Bangun:</label>
-                                <input type="text" id="slide-ans-name" value="${savedAns.name || ''}" oninput="saveCurrentInput()" placeholder="" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <input type="text" id="slide-ans-name" value="${savedAns.name || ''}" oninput="handleLiveInput()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-slate-600 block mb-1">Jumlah Sisi:</label>
-                                <input type="number" id="slide-ans-sisi" value="${savedAns.sisi || ''}" oninput="saveCurrentInput()" placeholder="" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <input type="number" id="slide-ans-sisi" value="${savedAns.sisi || ''}" oninput="handleLiveInput()" placeholder="0" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-slate-600 block mb-1">Jumlah Rusuk:</label>
-                                <input type="number" id="slide-ans-rusuk" value="${savedAns.rusuk || ''}" oninput="saveCurrentInput()" placeholder="" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <input type="number" id="slide-ans-rusuk" value="${savedAns.rusuk || ''}" oninput="handleLiveInput()" placeholder="0" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-slate-600 block mb-1">Titik Sudut:</label>
-                                <input type="number" id="slide-ans-sudut" value="${savedAns.sudut || ''}" oninput="saveCurrentInput()" placeholder="" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <input type="number" id="slide-ans-sudut" value="${savedAns.sudut || ''}" oninput="handleLiveInput()" placeholder="0" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
                             </div>
+                        </div>
+
+                        <!-- Kolom & Tombol Cek Jawaban Soal Ini -->
+                        <div class="pt-3 border-t border-slate-200/80 flex justify-end">
+                            <button onclick="checkCurrentSingleAnswer()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow transition-all flex items-center gap-1.5">
+                                🔍 Cek Jawaban Soal Ini
+                            </button>
                         </div>
                     </div>
                 `;
             } else {
                 card.innerHTML = `
-                    <div class="space-y-6">
+                    <div class="space-y-5">
                         <div class="flex justify-between items-center border-b border-slate-200/80 pb-3">
-                            <span class="text-xs font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">${item.cat === 'riddle' ? 'Bagian 2: Teka-Teki Ciri' : 'Bagian 3: Penerapan'}</span>
-                            <span class="text-xs text-slate-400">Tuliskan jawaban Anda</span>
+                            <span class="text-xs font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">Soal #${currentSlideIndex + 1} • ${item.cat === 'riddle' ? 'Teka-Teki Ciri' : 'Penerapan'}</span>
+                            <span class="text-xs text-slate-400">Jawaban Singkat</span>
                         </div>
-                        <p class="font-bold text-slate-800 text-base sm:text-lg leading-relaxed bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">"${item.text}"</p>
+
+                        ${feedbackBanner}
+
+                        <p class="font-bold text-slate-800 text-base sm:text-lg leading-relaxed bg-white p-5 sm:p-6 rounded-2xl border border-slate-100 shadow-sm">"${item.text}"</p>
+                        
                         <div>
                             <label class="text-xs font-bold text-slate-600 block mb-2">Jawaban Anda:</label>
-                            <input type="text" id="slide-ans-desc" value="${savedAns.desc || ''}" oninput="saveCurrentInput()" placeholder="" class="w-full md:w-3/4 px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                            <input type="text" id="slide-ans-desc" value="${savedAns.desc || ''}" oninput="handleLiveInput()" placeholder="Ketik jawaban di sini..." class="w-full md:w-3/4 px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all">
+                        </div>
+
+                        <!-- Kolom & Tombol Cek Jawaban Soal Ini -->
+                        <div class="pt-3 border-t border-slate-200/80 flex justify-end">
+                            <button onclick="checkCurrentSingleAnswer()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow transition-all flex items-center gap-1.5">
+                                🔍 Cek Jawaban Soal Ini
+                            </button>
                         </div>
                     </div>
                 `;
             }
 
-            // Update Nav State
+            // Update Nav Buttons State
             document.getElementById('btnPrev').disabled = (currentSlideIndex === 0);
             document.getElementById('btnNext').innerText = (currentSlideIndex === activeQuizList.length - 1) ? 'Selesai 🏁' : 'Selanjutnya ➡️';
+            
+            renderNavigationGrid();
+        }
+
+        function checkCurrentSingleAnswer() {
+            saveCurrentInput();
+            const item = activeQuizList[currentSlideIndex];
+            
+            // Tandai bahwa soal ini telah dicek
+            checkedQuestions[item.id] = true;
+            saveCheckedToStorage();
+            
+            renderCurrentSlide();
+            renderNavigationGrid();
+            updateOverallSummary();
+        }
+
+        function handleLiveInput() {
+            saveCurrentInput();
+            const item = activeQuizList[currentSlideIndex];
+            
+            // Jika pengguna merubah masukan, reset status pengecekan soal ini agar bisa dicek kembali
+            if (checkedQuestions[item.id]) {
+                delete checkedQuestions[item.id];
+                saveCheckedToStorage();
+            }
+            
+            saveAnswersToStorage();
+            renderNavigationGrid();
         }
 
         function saveCurrentInput() {
@@ -346,56 +603,56 @@
 
         function navigateSlide(direction) {
             saveCurrentInput();
+            saveAnswersToStorage();
+            
             const newIndex = currentSlideIndex + direction;
             if (newIndex >= 0 && newIndex < activeQuizList.length) {
                 currentSlideIndex = newIndex;
+                saveIndexToStorage();
+                renderNavigationGrid();
                 renderCurrentSlide();
             }
         }
 
-        function evaluateAllAnswers() {
-            saveCurrentInput();
+        function updateOverallSummary() {
+            let checkedCount = 0;
             let totalCorrect = 0;
 
             activeQuizList.forEach(item => {
-                const ans = userAnswers[item.id] || {};
-
-                if (item.cat === 'gambar') {
-                    const userName = (ans.name || '').toLowerCase();
-                    const userSisi = parseInt(ans.sisi);
-                    const userRusuk = parseInt(ans.rusuk);
-                    const userSudut = parseInt(ans.sudut);
-
-                    const nameMatch = userName.includes(item.keyName.toLowerCase());
-                    const sisiMatch = userSisi === item.sisi;
-                    const rusukMatch = userRusuk === item.rusuk;
-                    const sudutMatch = userSudut === item.sudut;
-
-                    if (nameMatch && sisiMatch && rusukMatch && sudutMatch) {
-                        totalCorrect++;
-                    }
-                } else {
-                    const userAns = (ans.desc || '').toLowerCase();
-                    if (userAns.includes(item.answerKey.toLowerCase())) {
+                if (checkedQuestions[item.id]) {
+                    checkedCount++;
+                    const status = checkQuestionCorrectness(item);
+                    if (status.isCorrect) {
                         totalCorrect++;
                     }
                 }
             });
 
-            const score = Math.round((totalCorrect / activeQuizList.length) * 100);
-            document.getElementById('scoreBadge').innerText = score;
-            document.getElementById('correctAnswersCount').innerText = totalCorrect;
-            document.getElementById('quizEssayResult').classList.remove('hidden');
-            document.getElementById('quizEssayResult').scrollIntoView({ behavior: 'smooth' });
+            if (checkedCount > 0) {
+                const score = Math.round((totalCorrect / activeQuizList.length) * 100);
+                document.getElementById('scoreBadge').innerText = score;
+                document.getElementById('correctAnswersCount').innerText = totalCorrect;
+                document.getElementById('quizEssayResult').classList.remove('hidden');
+            }
         }
 
         function resetEssayQuiz() {
-            shuffleQuizData();
+            if (confirm("Reset kuis akan menghapus seluruh data masukan. Lanjutkan?")) {
+                localStorage.removeItem(STORAGE_KEY_ANSWERS);
+                localStorage.removeItem(STORAGE_KEY_CHECKED);
+                localStorage.removeItem(STORAGE_KEY_INDEX);
+                userAnswers = {};
+                checkedQuestions = {};
+                currentSlideIndex = 0;
+                document.getElementById('quizEssayResult').classList.add('hidden');
+                renderNavigationGrid();
+                renderCurrentSlide();
+            }
         }
 
         // Initialize Kuis saat halaman dimuat
         window.onload = function() {
-            shuffleQuizData();
+            initQuizData();
         };
     </script>
 </body>
