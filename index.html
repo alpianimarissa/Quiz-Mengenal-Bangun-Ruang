@@ -194,16 +194,25 @@
                 <line x1="90" y1="125" x2="155" y2="145" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"/>
                 <polyline points="25,145 55,165 125,165 155,145" fill="none" stroke="#831843" stroke-width="2.5"/>
             </svg>`,
-            'prisma-segi-enam': `<svg viewBox="0 0 180 200" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
-                <polygon points="90,15 145,30 145,65 90,80 35,65 35,30" fill="#e9d5ff" fill-opacity="0.7" stroke="#6b21a8" stroke-width="2.5"/>
-                <polygon points="35,65 90,80 90,180 35,165" fill="#c084fc" fill-opacity="0.25" stroke="#6b21a8" stroke-width="2.5"/>
-                <polygon points="90,80 145,65 145,165 90,180" fill="#c084fc" fill-opacity="0.35" stroke="#6b21a8" stroke-width="2.5"/>
-                <line x1="35" y1="30" x2="35" y2="165" stroke="#6b21a8" stroke-width="2.5"/>
-                <line x1="145" y1="30" x2="145" y2="165" stroke="#6b21a8" stroke-width="2.5"/>
-                <line x1="90" y1="15" x2="90" y2="115" stroke="#6b21a8" stroke-width="2.5" stroke-dasharray="4"/>
-                <line x1="35" y1="130" x2="90" y2="115" stroke="#6b21a8" stroke-width="2.5" stroke-dasharray="4"/>
-                <line x1="145" y1="130" x2="90" y2="115" stroke="#6b21a8" stroke-width="2.5" stroke-dasharray="4"/>
-                <polyline points="35,165 90,180 145,165" fill="none" stroke="#6b21a8" stroke-width="2.5"/>
+            'prisma-segi-enam': `<svg viewBox="0 0 200 210" class="w-36 h-36 sm:w-40 sm:h-40 drop-shadow-md">
+                <!-- Rusuk & Sisi Belakang Tersembunyi -->
+                <line x1="50" y1="35" x2="50" y2="135" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"></line>
+                <line x1="150" y1="35" x2="150" y2="135" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"></line>
+                <polyline points="20,60 50,35 150,35 180,60" fill="none" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"></polyline>
+                <polyline points="20,160 50,135 150,135 180,160" fill="none" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"></polyline>
+
+                <!-- Sisi Tegak Depan -->
+                <polygon points="20,60 60,85 60,185 20,160" fill="#c084fc" fill-opacity="0.5" stroke="#6b21a8" stroke-width="2.5"></polygon>
+                <polygon points="60,85 140,85 140,185 60,185" fill="#a855f7" fill-opacity="0.4" stroke="#6b21a8" stroke-width="2.5"></polygon>
+                <polygon points="140,85 180,60 180,160 140,185" fill="#9333ea" fill-opacity="0.55" stroke="#6b21a8" stroke-width="2.5"></polygon>
+
+                <!-- Segi Enam Tutup Atas -->
+                <polygon points="50,35 150,35 180,60 140,85 60,85 20,60" fill="#e9d5ff" fill-opacity="0.8" stroke="#6b21a8" stroke-width="2.5"></polygon>
+                
+                <!-- Garis Rusuk Depan & Bawah -->
+                <line x1="60" y1="85" x2="60" y2="185" stroke="#6b21a8" stroke-width="2.5"></line>
+                <line x1="140" y1="85" x2="140" y2="185" stroke="#6b21a8" stroke-width="2.5"></line>
+                <polyline points="20,160 60,185 140,185 180,160" fill="none" stroke="#6b21a8" stroke-width="2.5"></polyline>
             </svg>`,
             'limas-segi-empat': `<svg viewBox="0 0 180 180" class="w-32 h-32 sm:w-36 sm:h-36 drop-shadow">
                 <polygon points="85,15 30,145 95,145 150,105" fill="#ebd5ff" fill-opacity="0.4" stroke="#7e22ce" stroke-width="2.5"/>
@@ -248,7 +257,7 @@
             { id: 15, cat: 'riddle', text: "Aku hanya memiliki 1 bidang sisi lengkung dan jarak dari titik pusat ke seluruh permukaan sisiku selalu sama. Aku tidak memiliki rusuk maupun titik sudut. Bangun apakah aku?", answerKey: "bola" },
             { id: 16, cat: 'riddle', text: "Aku memiliki 2 bidang identik berbentuk segitiga di bagian atas dan bawah, serta 3 bidang persegi panjang sebagai sisi tegak. Bangun apakah aku?", answerKey: "prisma segitiga" },
             { id: 17, cat: 'riddle', text: "Aku memiliki total 7 bidang sisi, 15 rusuk, dan 10 titik sudut dengan alas berbentuk segi lima. Bangun apakah aku?", answerKey: "prisma segi lima" },
-            { id: 18, cat: 'riddle', text: "Aku memiliki 4 bidang sisi yang semuanya berbentuk segitiga sama sisi yang kongruen dan 6 rusuk. Bangun apakah aku?", answerKey: "tetrahedron" },
+            { id: 18, cat: 'riddle', text: "Aku memiliki 4 bidang sisi yang semuanya berbentuk segitiga sama sisi yang kongruen dan 6 rusuk. Bangun apakah aku?", answerKey: "limas segitiga" },
             { id: 19, cat: 'riddle', text: "Aku memiliki 1 alas berbentuk segi empat dan 4 sisi tegak berbentuk segitiga yang bertemu di 1 titik puncak. Total titik sudutku ada 5. Bangun apakah aku?", answerKey: "limas segi empat" },
             { id: 20, cat: 'riddle', text: "Aku memiliki alas berbentuk segi enam dan 6 bidang segitiga tegak. Total titik sudutku ada 7 dan rusukku ada 12. Bangun apakah aku?", answerKey: "limas segi enam" },
 
@@ -271,10 +280,10 @@
         let checkedQuestions = {}; // Track status pengecekan tiap soal: { qId: true/false }
 
         // Local Storage Keys
-        const STORAGE_KEY_ANSWERS = 'quiz_bangun_ruang_answers_v2';
-        const STORAGE_KEY_CHECKED = 'quiz_bangun_ruang_checked_v2';
-        const STORAGE_KEY_INDEX = 'quiz_bangun_ruang_index_v2';
-        const STORAGE_KEY_LIST = 'quiz_bangun_ruang_list_v2';
+        const STORAGE_KEY_ANSWERS = 'quiz_bangun_ruang_answers_v3';
+        const STORAGE_KEY_CHECKED = 'quiz_bangun_ruang_checked_v3';
+        const STORAGE_KEY_INDEX = 'quiz_bangun_ruang_index_v3';
+        const STORAGE_KEY_LIST = 'quiz_bangun_ruang_list_v3';
 
         // Load or Initialize Kuis Data
         function initQuizData() {
@@ -393,7 +402,12 @@
                 const desc = (ans.desc || '').trim().toLowerCase();
                 if (!desc) return { isFilled: false, isCorrect: false };
 
-                const isCorrect = desc.includes(item.answerKey.toLowerCase());
+                // Memungkinkan jawaban "limas segitiga" atau "tetrahedron" untuk soal 18
+                let isCorrect = desc.includes(item.answerKey.toLowerCase());
+                if (item.id === 18 && (desc.includes("tetrahedron") || desc.includes("limas segi tiga") || desc.includes("limas segitiga"))) {
+                    isCorrect = true;
+                }
+
                 return { isFilled: true, isCorrect };
             }
         }
@@ -458,7 +472,7 @@
             const catLabel = item.cat === 'gambar' ? 'Bagian 1: Soal Bergambar' : (item.cat === 'riddle' ? 'Bagian 2: Teka-Teki Ciri' : 'Bagian 3: Penerapan');
             document.getElementById('quizCategoryBadge').innerText = catLabel;
 
-            // Feedback Banner (hanya muncul saat tombol "Cek Jawaban" diklik)
+            // Feedback Banner
             let feedbackBanner = '';
             if (isChecked) {
                 if (status.isCorrect) {
@@ -489,7 +503,7 @@
                         ${feedbackBanner}
 
                         <div class="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                            <div class="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center bg-slate-50 rounded-lg p-2 shrink-0">
+                            <div class="w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center bg-slate-50 rounded-lg p-2 shrink-0">
                                 ${svgContent}
                             </div>
                             <p class="font-bold text-slate-800 text-sm sm:text-base flex-grow text-center sm:text-left leading-relaxed">${item.q}</p>
@@ -573,7 +587,7 @@
             saveCurrentInput();
             const item = activeQuizList[currentSlideIndex];
             
-            // Jika pengguna merubah masukan, reset status pengecekan soal ini agar bisa dicek kembali
+            // Reset status pengecekan jika ada perubahan input
             if (checkedQuestions[item.id]) {
                 delete checkedQuestions[item.id];
                 saveCheckedToStorage();
